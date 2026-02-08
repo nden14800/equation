@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>方程式：未知数への旅と解けない壁 - 究極のアーカイブ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'media', // デバイスのテーマ設定に自動追従
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Inter"', '"Noto Sans JP"', 'sans-serif'],
+                        serif: ['"Noto Serif JP"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <!-- KaTeX JS -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+        
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            scroll-behavior: smooth;
+            line-height: 2.4; /* 行間を広げて読みやすく */
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        .serif-text {
+            font-family: 'Noto Serif JP', serif;
+        }
+
+        /* Slide-out Panel Styles */
+        .quiz-panel {
+            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            transform: translateX(100%);
+            box-shadow: -10px 0 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-panel.active {
+            transform: translateX(0);
+        }
+
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .glass-morphism {
+                background: rgba(15, 23, 42, 0.85);
+                border-bottom: 1px solid rgba(51, 65, 85, 0.6);
+            }
+        }
+
+        .content-card {
+            border-radius: 1.5rem;
+            padding: 4rem;
+            margin-bottom: 5rem;
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .content-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.08);
+        }
+
+        .equation-box {
+            border-left: 6px solid #4f46e5;
+            background: linear-gradient(90deg, rgba(79, 70, 229, 0.05) 0%, transparent 100%);
+            padding: 3rem;
+            margin: 4rem 0;
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            border-radius: 0 1rem 1rem 0;
+            font-family: 'Noto Serif JP', serif;
+            letter-spacing: 0.05em;
+        }
+
+        .chapter-title {
+            position: relative;
+            padding-bottom: 1.5rem;
+            margin-bottom: 3.5rem;
+            font-size: 2.25rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 1.3;
+            border-bottom: 1px solid #cbd5e1;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .chapter-title {
+                border-bottom: 1px solid #334155;
+            }
+        }
+
+        .chapter-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 80px;
+            height: 4px;
+            background: #4f46e5;
+            border-radius: 2px;
+        }
+
+        .sub-section-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 4.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            color: #312e81;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .sub-section-title {
+                color: #e0e7ff;
+            }
+        }
+
+        .sub-section-title::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 28px;
+            background: #6366f1;
+            margin-right: 16px;
+            border-radius: 99px;
+        }
+
+        p { margin-bottom: 2.5rem; font-size: 1.125rem; text-align: justify; letter-spacing: 0.04em; color: #334155; }
+        
+        @media (prefers-color-scheme: dark) {
+            p { color: #94a3b8; }
+        }
+
+        .diagram-box {
+            border-radius: 2rem;
+            padding: 4rem;
+            margin: 5rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .diagram-box {
+                background-color: #0f172a;
+                border: 1px solid #1e293b;
+            }
+        }
+
+        .highlight-text {
+            background: linear-gradient(180deg, transparent 65%, #c7d2fe 65%);
+            font-weight: 700;
+            padding: 0 4px;
+            color: #1e1b4b;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .highlight-text {
+                background: linear-gradient(180deg, transparent 65%, #312e81 65%);
+                color: #e0e7ff;
+            }
+        }
+
+        /* Trivia Box Styling */
+        .trivia-box {
+            border-radius: 1.25rem;
+            padding: 2.5rem 3rem;
+            margin: 4rem 0;
+            position: relative;
+            background-color: #fffbeb;
+            border: 1px solid #fcd34d;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .trivia-box {
+                background-color: rgba(120, 53, 15, 0.1);
+                border: 1px solid rgba(180, 83, 9, 0.4);
+            }
+        }
+
+        .trivia-badge {
+            position: absolute;
+            top: -16px;
+            left: 32px;
+            background: linear-gradient(135deg, #d97706, #b45309);
+            color: white;
+            padding: 6px 20px;
+            border-radius: 9999px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Quiz UI */
+        .quiz-input {
+            transition: all 0.2s ease;
+        }
+        .quiz-input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+        }
+        .correct-answer {
+            background-color: #f0fdf4 !important;
+            border-color: #22c55e !important;
+            color: #15803d !important;
+            box-shadow: 0 0 0 1px #22c55e;
+        }
+        .incorrect-answer {
+            background-color: #fef2f2 !important;
+            border-color: #ef4444 !important;
+            color: #b91c1c !important;
+            box-shadow: 0 0 0 1px #ef4444;
+        }
+        
+        .feedback-box {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 2rem;
+            border-radius: 1rem;
+            font-size: 1rem;
+            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* KaTeX SVG fix */
+        foreignObject { overflow: visible; }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #4f46e5 0%, #0ea5e9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 selection:bg-indigo-200 dark:selection:bg-indigo-900">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-40 glass-morphism">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <!-- Simple Scale Balance Symbol Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600 dark:text-indigo-400" viewBox="0 0 24 24">
+                     <path d="M12 3v18" />
+                     <path d="M6 8l-4 4 4 4" />
+                     <path d="M18 8l4 4-4 4" />
+                     <circle cx="12" cy="12" r="3" />
+                </svg>
+                <span class="font-bold text-lg tracking-tight hidden sm:block">Archive: Equation</span>
+            </div>
+            <button id="quizTrigger" class="group bg-slate-900 text-white dark:bg-indigo-600 dark:text-white px-6 py-3 rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center gap-3 text-sm md:text-base border border-transparent hover:border-indigo-400">
+                <!-- Bootstrap Icon: pencil-square -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="transition-transform group-hover:rotate-12" viewBox="0 0 16 16">
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                </svg>
+                <span>無限演習ジェネレーター</span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-6 py-24">
+        
+        <!-- Hero Section -->
+        <header class="text-center mb-32">
+            <div class="inline-block px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:border-indigo-800 dark:text-indigo-300 text-xs font-bold uppercase tracking-widest mb-6">
+                The Balance of Truth
+            </div>
+            <h1 class="text-5xl md:text-8xl font-black mb-10 tracking-tight leading-tight">
+                <span class="hero-gradient">方程式</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-600 dark:text-slate-400 serif-text max-w-3xl mx-auto leading-loose">
+                等号で結ばれた左右の天秤から、未知なる $x$ を導き出す技法。<br>
+                1次、2次、そして「解の公式」が存在しない5次以上の深淵なる世界。<br>
+                人類が数千年かけて挑んできた、代数学の頂点とその限界を紐解く。
+            </p>
+        </header>
+
+        <!-- Chapter 1: Essence -->
+        <section class="content-card bg-white border border-slate-100 dark:bg-slate-900 dark:border-slate-800">
+            <h2 class="chapter-title text-slate-900 dark:text-slate-100">第1章：等式の意味と「次数」の支配</h2>
+            <div class="serif-text">
+                <p>
+                    <strong>方程式（Equation）</strong>とは、未知数（変数）を含み、その未知数が特定の値をとるときだけに成り立つ等式のことである。英語の Equation は Equa（等しい）に由来し、その本質は「釣り合い」にある。左辺と右辺という2つの世界が均衡する、その一点を探すプロセスが「方程式を解く」ということだ。
+                </p>
+
+                <p>
+                    方程式の性格を決定づける最も重要な要素は<strong>「次数（Degree）」</strong>である。未知数 $x$ が何回掛け合わされているか（$x$ なのか $x^2$ なのか）によって、解の個数や挙動が劇的に変化する。1次方程式は直線、2次方程式は放物線を描き、次数が上がるにつれてその世界は複雑さと深みを増していく。
+                </p>
+
+                <div class="diagram-box">
+                    <h4 class="text-lg font-bold mb-12 text-slate-700 dark:text-slate-300 tracking-wider">真理の天秤</h4>
+                    
+                    <!-- HTML/CSS based diagram for perfect KaTeX integration -->
+                    <div class="relative flex flex-col items-center justify-center p-8">
+                        
+                        <!-- Balance Scale Visualization -->
+                        <div class="relative w-full max-w-md h-48 flex items-end justify-center">
+                            
+                            <!-- Base -->
+                            <div class="absolute bottom-0 w-4 h-32 bg-slate-300 dark:bg-slate-600 rounded-t-lg"></div>
+                            <div class="absolute bottom-0 w-32 h-4 bg-slate-300 dark:bg-slate-600 rounded-full"></div>
+
+                            <!-- Beam (Balanced) -->
+                            <div class="absolute top-8 w-64 h-2 bg-indigo-500 dark:bg-indigo-400 rounded-full"></div>
+                            
+                            <!-- Fulcrum -->
+                            <div class="absolute top-8 w-4 h-4 bg-slate-800 dark:bg-slate-200 rounded-full z-10"></div>
+
+                            <!-- Left Pan -->
+                            <div class="absolute left-8 top-8 w-0.5 h-16 bg-slate-400"></div>
+                            <div class="absolute left-8 top-24 w-20 h-2 bg-slate-400"></div>
+                            <div class="absolute left-[32px] top-[96px] -translate-x-1/2 flex flex-col items-center">
+                                <div class="w-20 h-10 border-b-2 border-l-2 border-r-2 border-slate-400 rounded-b-full bg-white/50 dark:bg-slate-800/50 flex items-center justify-center">
+                                    <span class="font-bold text-xl text-indigo-700 dark:text-indigo-300">$$3x+2$$</span>
+                                </div>
+                            </div>
+
+                            <!-- Right Pan -->
+                            <div class="absolute right-8 top-8 w-0.5 h-16 bg-slate-400"></div>
+                            <div class="absolute right-8 top-24 w-20 h-2 bg-slate-400"></div>
+                            <div class="absolute right-[32px] top-[96px] translate-x-1/2 flex flex-col items-center">
+                                <div class="w-20 h-10 border-b-2 border-l-2 border-r-2 border-slate-400 rounded-b-full bg-white/50 dark:bg-slate-800/50 flex items-center justify-center">
+                                    <span class="font-bold text-xl text-indigo-700 dark:text-indigo-300">$$14$$</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-12 italic text-center max-w-lg">
+                        方程式 $3x + 2 = 14$ は、左の皿と右の皿が釣り合っている状態。<br>両方から2を取り除き、3で割ることで、未知の重さ $x$ が明らかになる。
+                    </p>
+                </div>
+
+                <div class="equation-box text-slate-900 dark:text-slate-100 shadow-sm">
+                    $$ f(x) = 0 $$
+                </div>
+
+                <h3 class="sub-section-title">代数学の基本定理</h3>
+                <p>
+                    ガウスによって証明された「代数学の基本定理」は、方程式の世界に完全な秩序をもたらした。すなわち、<span class="highlight-text">「複素数の範囲において、$n$ 次方程式は必ず $n$ 個の解を持つ」</span>（重解を重複して数えた場合）。
+                    1次方程式なら解は1つ。2次なら2つ。5次なら5つ。どれほど複雑な方程式であっても、解の個数は次数によって最初から決定されている。これは数学における美しい対称性の一つである。
+                </p>
+
+                <!-- Trivia 1 -->
+                <div class="trivia-box">
+                    <span class="trivia-badge">
+                        豆知識：x の由来
+                    </span>
+                    <p class="mb-0 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                        未知数になぜ「$x$」が使われるのか？ 有力な説として、アラビア語で「未知のもの」を意味する "al-shalan" がスペイン語に翻訳される際、その発音に近いギリシャ文字の $\chi$（カイ）が当てられ、後にラテン文字の $x$ に変化したと言われている。また、デカルトが印刷工の都合（$x$ の活字があまりがちだった）で採用したという説もある。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 1.5: Calculation -->
+        <section class="content-card bg-white border border-slate-100 dark:bg-slate-900 dark:border-slate-800">
+            <h2 class="chapter-title text-slate-900 dark:text-slate-100">実践：解法のアルゴリズム</h2>
+            <div class="serif-text">
+                <h3 class="sub-section-title">1次方程式：移項と逆演算</h3>
+                <p>
+                    1次方程式の解法は「邪魔なものを消す」ことに尽きる。$x$ にくっついている係数や定数を、等式の性質を利用して逆サイドへ追いやり、最終的に $x = \dots$ の形に持ち込む。
+                </p>
+                <div class="bg-indigo-50 dark:bg-indigo-900/20 p-8 rounded-2xl border border-indigo-100 dark:border-indigo-800 mb-10">
+                    <p class="font-bold text-indigo-900 dark:text-indigo-200 mb-4 flex items-center gap-2">
+                        <span class="bg-indigo-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">1</span>
+                        基本：$3x - 5 = 7$
+                    </p>
+                    <div class="pl-4 border-l-2 border-indigo-200 dark:border-indigo-700 mb-6">
+                        <p class="mb-2 text-sm text-slate-600 dark:text-slate-400">邪魔な $-5$ を消すために両辺に $+5$ （移項）：</p>
+                        <div class="text-lg font-serif">
+                            $$ 3x = 7 + 5 \implies 3x = 12 $$
+                        </div>
+                        <p class="my-2 text-sm text-slate-600 dark:text-slate-400">$x$ の係数 $3$ で割る：</p>
+                        <div class="text-xl font-bold text-indigo-800 dark:text-indigo-300">
+                            $$ x = 4 $$
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="sub-section-title">2次方程式：因数分解と解の公式</h3>
+                <p>
+                    2次方程式 $ax^2 + bx + c = 0$ になると、単純な逆算では解けない。まずは「因数分解」を試み、無理なら最強の武器である「解の公式」を発動する。
+                </p>
+                <div class="bg-rose-50 dark:bg-rose-900/20 p-8 rounded-2xl border border-rose-100 dark:border-rose-800 mb-8">
+                    <p class="font-bold text-rose-900 dark:text-rose-200 mb-4 flex items-center gap-2">
+                        <span class="bg-rose-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">2</span>
+                        万能の鍵：解の公式
+                    </p>
+                    <p class="text-slate-700 dark:text-slate-300 mb-4">
+                        どんな2次方程式でも、係数 $a, b, c$ を代入するだけで解が求まる魔法の公式。
+                    </p>
+                    <div class="text-2xl font-bold text-center py-6 text-rose-800 dark:text-rose-300 font-serif">
+                        $$ x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
+                    </div>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">
+                        ルートの中身（判別式 $D = b^2 - 4ac$）がマイナスになるとき、解は「虚数解」となり、実数の世界から飛び出す。
+                    </p>
+                </div>
+
+                <!-- Trivia 2 -->
+                <div class="trivia-box">
+                    <span class="trivia-badge">
+                        豆知識：公式の覚え方
+                    </span>
+                    <p class="mb-0 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                        日本の学校では、解の公式をリズムに乗せて暗記する。「にーえーぶんの、マイナスびー、プラスマイナスるーと、びーじじょうマイナスよんえーしー」。この呪文のようなリズムは、一度覚えると一生頭から離れない強力な定着力を持つ。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 2: History -->
+        <section class="content-card bg-white border border-slate-100 dark:bg-slate-900 dark:border-slate-800">
+            <h2 class="chapter-title text-slate-900 dark:text-slate-100">第2章：3次・4次方程式の決闘</h2>
+            <div class="serif-text text-xl leading-relaxed">
+                <p>
+                    2次方程式の解法は古代バビロニアですでに知られていたが、3次方程式（$ax^3+...=0$）と4次方程式の解法が見つかるまでには数千年の時を要した。16世紀イタリア、ルネサンス期に繰り広げられたのは、数学者たちのプライドを懸けた知的格闘技であった。
+                </p>
+                
+                <h3 class="sub-section-title">タルタリアとカルダノの確執</h3>
+                <p>
+                    1535年、数学者ニコロ・タルタリアは3次方程式の解法を独自に発見した。これをジェロラモ・カルダノが聞きつけ、「絶対に秘密にする」という誓いのもと解法を聞き出した。
+                    しかし、カルダノはその誓いを破り、自身の著書『アルス・マグナ（大いなる術）』でその解法を公表してしまう。これが数学史に残る「カルダノの公式」である。激怒したタルタリアとの論争は泥沼化したが、この公式の発見により、人類は初めて「虚数」の必要性に直面することとなった。
+                </p>
+
+                <h3 class="sub-section-title">フェラーリと4次の壁</h3>
+                <p>
+                    カルダノの弟子であるルドヴィコ・フェラーリは、師匠の知識を応用して4次方程式の解法（フェラーリの公式）を発見した。
+                    これにより1次から4次までは「代数的な公式（四則演算とルートだけで書ける式）」が存在することが確定した。数学者たちは当然、「次は5次方程式の公式だ」と意気込んだが、ここから300年にわたる沈黙の時代が始まる。
+                </p>
+
+                <!-- Trivia 3 -->
+                <div class="trivia-box">
+                    <span class="trivia-badge">
+                        豆知識：決闘で散った天才
+                    </span>
+                    <p class="mb-0 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                        5次方程式の不可解さを解明した天才エヴァリスト・ガロアは、数学とは関係のない恋愛沙汰の決闘により、わずか20歳で命を落とした。彼は決闘前夜、死を予感しながら友人に宛てて自分の理論を書き殴った。その手紙の余白には「時間がない（Je n'ai pas le temps）」という悲痛な言葉が残されている。彼の理論（ガロア理論）が理解されたのは、彼の死後数十年経ってからだった。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 3: Proofs -->
+        <section class="content-card bg-white border border-slate-100 dark:bg-slate-900 dark:border-slate-800">
+            <h2 class="chapter-title text-slate-900 dark:text-slate-100">第3章：5次の壁とアーベル・ルフィニの定理</h2>
+            <div class="serif-text text-xl leading-relaxed">
+                <p>
+                    「5次方程式の解の公式を見つけよ」。多くの天才が挑み、敗れ去ったこの問題に終止符を打ったのは、ニールス・アーベルとパオロ・ルフィニ、そしてガロアであった。結論は衝撃的なものだった。
+                </p>
+
+                <h3 class="sub-section-title">解の公式は「存在しない」</h3>
+                <p>
+                    <strong>アーベル・ルフィニの定理</strong>は、「5次以上の一般的な代数方程式には、加減乗除と根号（ルート）だけで表せる解の公式は存在しない」ことを証明した。
+                    これは「まだ見つかっていない」のではなく、「未来永劫、絶対に作れない」という不可能性の証明である。
+                </p>
+                
+                <h3 class="sub-section-title">なぜ解けないのか？</h3>
+                <p>
+                    ガロアは、方程式の解が持つ「対称性（入れ替えのパターン）」に着目し、これを「群（Group）」という概念で記述した。
+                    5次以上の対称群は複雑な構造を持っており、それを四則演算とルートの操作だけで解きほぐすことが構造的に不可能であることを示した（ガロア理論）。
+                    これにより、方程式論は「解を求める技術」から「構造を理解する学問」へと劇的な進化を遂げた。
+                </p>
+
+                <!-- Trivia 4 -->
+                <div class="trivia-box">
+                    <span class="trivia-badge">
+                        豆知識：解けないわけではない
+                    </span>
+                    <p class="mb-0 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                        「公式が存在しない」というのは、あくまで「ルートなどの単純な記号で書けない」という意味である。数値計算を使えば、5次方程式であっても $x \approx 1.234...$ のように近似解を求めることは現代のコンピュータなら一瞬で可能である（ニュートン法など）。公式がないことと、答えが出せないことはイコールではない。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 4: Modern World -->
+        <section class="content-card bg-white border border-slate-100 dark:bg-slate-900 dark:border-slate-800">
+            <h2 class="chapter-title text-slate-900 dark:text-slate-100">第4章：世界を記述する言語</h2>
+            <div class="serif-text text-xl leading-relaxed">
+                <p>
+                    方程式は、数学の教科書を飛び出し、私たちの住む宇宙そのものを記述している。物理法則、経済変動、化学反応、すべてが方程式によって支配されている。
+                </p>
+
+                <h3 class="sub-section-title">物理学と微分方程式</h3>
+                <p>
+                    ニュートンの運動方程式 $F=ma$、アインシュタインの $E=mc^2$、シュレーディンガー方程式。物理学の偉大な発見はすべて方程式の形で表現される。
+                    特に「微分方程式（変化率を含む方程式）」は、天体の動きから気象予報、感染症の拡大予測まで、時間とともに変化するあらゆる現象を予測するために不可欠なツールである。
+                </p>
+
+                <h3 class="sub-section-title">制御工学と高次方程式</h3>
+                <p>
+                    ロボットアームの制御や自動運転車の安定性を解析する際、システムの挙動を表す特性方程式（高次方程式）を解く必要がある。
+                    その解が複素数平面のどこにあるかによって、システムが暴走するか、安定して動作するかが決まる。ここでは解の具体的な値よりも、解の分布（ガロアやコーシーが研究した領域）が実用的な意味を持つ。
+                </p>
+                
+                <!-- Trivia 5 -->
+                <div class="trivia-box">
+                    <span class="trivia-badge">
+                        豆知識：AIと方程式
+                    </span>
+                    <p class="mb-0 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                        現代のAI（ディープラーニング）の学習プロセスも、実は巨大な連立方程式の最適解を探すプロセスと見なせる。数百万、数十億というパラメータ（未知数）を持つ方程式を、勾配降下法というアルゴリズムで少しずつ調整し、誤差が最小になる（方程式が成り立つ）点を探しているのである。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section class="text-center py-24 bg-white rounded-3xl shadow-sm border border-slate-100 dark:bg-slate-900 dark:border-slate-800 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+            <div class="h-1 bg-indigo-100 dark:bg-indigo-900/30 w-32 mx-auto mb-12 rounded-full"></div>
+            <h2 class="text-4xl font-black mb-10 text-slate-800 dark:text-slate-100 tracking-tight">未知への架け橋</h2>
+            <p class="text-xl text-slate-500 dark:text-slate-400 max-w-3xl mx-auto serif-text leading-loose px-4">
+                「$x$ を求めよ」。<br>
+                そのシンプルな問いかけから始まった旅は、<br>
+                数千年の時を経て、人類に宇宙の法則を解き明かす力を与えた。<br>
+                5次の壁が示した限界は、逆に新しい数学の地平を切り拓いた。<br>
+                方程式とは、私たちが未知の世界と対話するための、<br>
+                最も美しく、最も強力な言語なのである。
+            </p>
+        </section>
+
+    </main>
+
+    <!-- Quiz Panel -->
+    <div id="quizPanel" class="quiz-panel fixed top-0 right-0 h-full w-full md:w-[650px] bg-white shadow-2xl z-50 flex flex-col border-l border-slate-100 dark:bg-slate-900 dark:border-slate-800">
+        <!-- Panel Header -->
+        <div class="p-8 border-b flex justify-between items-center bg-indigo-900 text-white shadow-md dark:bg-slate-950 dark:border-slate-800">
+            <div>
+                <h3 class="text-2xl font-bold flex items-center gap-3">
+                    Practice Problems
+                </h3>
+                <p class="text-xs text-indigo-200 mt-1 uppercase tracking-widest pl-0">Infinite Random Generator</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="generateBtn" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-sm font-bold transition-all shadow-lg border border-indigo-400 flex items-center gap-2 dark:bg-indigo-700 dark:hover:bg-indigo-600 dark:border-indigo-600 transform active:scale-95">
+                    <!-- Bootstrap Icon: shuffle -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M0 3.5A.5.5 0 0 1 .5 3H1c2.202 0 3.827 1.24 4.874 2.418.49.552.865 1.102 1.126 1.532.26-.43.636-.98 1.126-1.532C9.173 4.24 10.798 3 13 3v1c-1.798 0-3.173 1.01-4.126 2.082A9.624 9.624 0 0 0 7.556 8a9.624 9.624 0 0 0 1.317 1.918C9.828 10.99 11.204 12 13 12v1c-2.202 0-3.827-1.24-4.874-2.418A10.595 10.595 0 0 1 7 9.05c-.26.43-.636.98-1.126 1.532C4.827 11.76 3.202 13 1 13H.5a.5.5 0 0 1 0-1H1c1.798 0 3.173-1.01 4.126-2.082A9.624 9.624 0 0 0 6.444 8a9.624 9.624 0 0 0-1.317-1.918C4.172 5.01 2.796 4 1 4H.5a.5.5 0 0 1-.5-.5z"/>
+                        <path d="M13 5.466V1.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192zm0 9v-3.932a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192z"/>
+                    </svg>
+                    問題を生成
+                </button>
+                <button id="closeQuiz" class="p-2.5 hover:bg-indigo-800 rounded-lg transition-colors text-indigo-200 hover:text-white">
+                    <!-- Bootstrap Icon: x-lg -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Quiz Content Area -->
+        <div class="flex-1 overflow-y-auto p-8 bg-slate-50 dark:bg-slate-900 scrollbar-thin">
+            <div id="quizContainer" class="space-y-12">
+                <div class="text-center text-slate-500 dark:text-slate-400 py-32 flex flex-col items-center justify-center h-full">
+                    <div class="bg-indigo-50 dark:bg-indigo-900/20 p-8 rounded-full mb-8 animate-pulse">
+                        <!-- Bootstrap Icon: patch-check-fill -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="text-indigo-400" viewBox="0 0 16 16">
+                            <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89-.01-.622-.636zM10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                        </svg>
+                    </div>
+                    <p class="text-2xl mb-3 font-bold text-slate-700 dark:text-slate-200">準備完了</p>
+                    <p class="text-slate-500 dark:text-slate-400 max-w-xs mx-auto">右上の「問題を生成」ボタンを押して、<br>自動生成プログラムによる演習を開始してください。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-slate-900 text-white py-24 text-center dark:bg-slate-950 dark:border-t dark:border-slate-800">
+        <p class="text-slate-500 mb-6 tracking-[0.4em] text-sm uppercase">Mathematical Archive Project</p>
+        <p class="text-sm opacity-40 serif-text italic max-w-md mx-auto leading-relaxed">
+            "An equation for me has no meaning unless it expresses a thought of God."
+            <br>– Srinivasa Ramanujan
+        </p>
+    </footer>
+
+    <script>
+        // Global variables for the quiz
+        let currentQuestions = [];
+        
+        // --- 1. Math Render Logic ---
+        function renderMath() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ],
+                throwOnError: false
+            });
+        }
+
+        // --- 2. Problem Generation Algorithm (Equations) ---
+        function generateEquations() {
+            const problems = [];
+            
+            // Generate 10 random problems
+            for (let i = 0; i < 10; i++) {
+                const type = Math.random();
+                let questionText = "";
+                let targetVal = 0;
+                let explanation = "";
+                let unit = "";
+
+                if (type < 0.35) {
+                    // Type 1: Linear Equation (ax + b = c)
+                    // Ensure integer answer
+                    const ans = Math.floor(Math.random() * 20) - 10; // -10 to 9
+                    const a = Math.floor(Math.random() * 8) + 2; // 2 to 9
+                    const b = Math.floor(Math.random() * 20) - 10; 
+                    const c = a * ans + b;
+
+                    questionText = `次の1次方程式を解きなさい：<br>$$ ${a}x ${b >= 0 ? '+' : ''}${b} = ${c} $$`;
+                    targetVal = ans;
+                    explanation = `<strong>移項して逆算する</strong><br>
+                    $${a}x ${b >= 0 ? '+' : ''}${b} = ${c}$<br>
+                    $${a}x = ${c} ${b >= 0 ? '-' : '+'}${Math.abs(b)}$ （移項）<br>
+                    $${a}x = ${c - b}$<br>
+                    両辺を $${a}$ で割って、<br>
+                    $x = ${ans}$`;
+
+                } else if (type < 0.7) {
+                    // Type 2: Simple Quadratic Equation (Factoring)
+                    // (x - p)(x - q) = 0 -> x^2 - (p+q)x + pq = 0
+                    // Ask for the LARGER solution
+                    const root1 = Math.floor(Math.random() * 9) + 1; // 1 to 9
+                    const root2 = Math.floor(Math.random() * 9) + 1;
+                    const b = -(root1 + root2);
+                    const c = root1 * root2;
+                    const maxRoot = Math.max(root1, root2);
+
+                    questionText = `次の2次方程式の解のうち、<strong>大きい方</strong>の値を答えなさい：<br>$$ x^2 ${b >= 0 ? '+' : ''}${b}x + ${c} = 0 $$`;
+                    targetVal = maxRoot;
+                    explanation = `<strong>因数分解を利用する</strong><br>
+                    足して $${b}$、掛けて $${c}$ になる2つの数を探すと、$-${root1}$ と $-${root2}$ が見つかります。<br>
+                    よって、$(x - ${root1})(x - ${root2}) = 0$ と因数分解できます。<br>
+                    解は $x = ${root1}, ${root2}$ です。<br>
+                    大きい方は $${maxRoot}$ となります。`;
+
+                } else {
+                    // Type 3: Simple Cubic Equation (x^3 = a) or conceptual
+                    // Simple cubic: x^3 - a = 0
+                    const root = Math.floor(Math.random() * 5) + 2; // 2 to 6
+                    const cube = root * root * root;
+                    
+                    questionText = `次の3次方程式の実数解を求めなさい：<br>$$ x^3 - ${cube} = 0 $$`;
+                    targetVal = root;
+                    explanation = `<strong>3乗して元に戻る数を探す</strong><br>
+                    移項すると $x^3 = ${cube}$ です。<br>
+                    $${root} \\times ${root} \\times ${root} = ${cube}$ なので、<br>
+                    実数解は $x = ${root}$ です。<br>
+                    （注：複素数の範囲では他に2つの虚数解が存在します）`;
+                }
+
+                problems.push({
+                    id: i + 1,
+                    text: questionText,
+                    val: targetVal,
+                    explanation: explanation,
+                    unit: unit
+                });
+            }
+            
+            return problems;
+        }
+
+        // --- 3. Rendering Quiz HTML ---
+        function generateQuizHTML() {
+            currentQuestions = generateEquations();
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = ''; // Clear
+
+            currentQuestions.forEach(q => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-8 rounded-3xl border border-slate-200 shadow-sm transition-all hover:shadow-md dark:bg-slate-800 dark:border-slate-700 relative overflow-hidden";
+                card.innerHTML = `
+                    <div class="absolute top-0 left-0 w-2 h-full bg-indigo-500"></div>
+                    <div class="flex items-center gap-3 mb-5">
+                        <span class="bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-200 font-bold px-4 py-1.5 rounded-full text-sm tracking-wide">Q.${q.id}</span>
+                        ${q.unit ? `<span class="text-xs font-bold text-slate-400 bg-slate-100 dark:bg-slate-700 px-2 py-1 rounded">応用問題</span>` : ''}
+                    </div>
+                    <div class="text-slate-800 dark:text-slate-200 mb-8 text-lg leading-relaxed font-medium serif-text">
+                        ${q.text}
+                    </div>
+                    <div class="flex gap-4 items-center mb-6">
+                        <input type="number" id="q${q.id}-input" class="quiz-input w-full p-4 border-2 border-slate-200 rounded-2xl font-bold text-xl text-slate-700 placeholder-slate-300 dark:bg-slate-900 dark:border-slate-600 dark:text-slate-100" placeholder="答えを入力" step="1">
+                        <span class="font-bold text-slate-400 text-xl whitespace-nowrap">${q.unit}</span>
+                    </div>
+                    <button onclick="checkAnswer(${q.id})" class="group w-full bg-slate-800 text-white font-bold py-4 rounded-2xl hover:bg-slate-700 transition-all shadow-lg shadow-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 dark:shadow-none flex items-center justify-center gap-2">
+                        <span>答え合わせ</span>
+                        <!-- Bootstrap Icon: arrow-right-circle -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="opacity-50 group-hover:opacity-100 transition-opacity" viewBox="0 0 16 16">
+                           <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                        </svg>
+                    </button>
+                    
+                    <div id="q${q.id}-feedback" class="feedback-box bg-slate-100 dark:bg-slate-900/50"></div>
+                `;
+                container.appendChild(card);
+            });
+
+            // Re-render MathJax/KaTeX for the new content
+            renderMath();
+        }
+
+        // --- 4. Validation Logic ---
+        function checkAnswer(qId) {
+            // qId is 1-based index
+            const data = currentQuestions[qId - 1];
+            const input = document.getElementById(`q${qId}-input`);
+            const feedback = document.getElementById(`q${qId}-feedback`);
+            const userVal = parseInt(input.value);
+
+            feedback.style.display = 'block';
+            input.classList.remove('correct-answer', 'incorrect-answer');
+
+            // Exact match for integer answers
+            if (userVal === data.val) {
+                // Correct
+                input.classList.add('correct-answer');
+                feedback.innerHTML = `
+                    <div class="text-green-700 dark:text-green-400 font-bold text-lg mb-3 flex items-center gap-2">
+                        <!-- Bootstrap Icon: check-circle-fill -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                        </svg>
+                        正解です！
+                    </div>
+                    <div class="mt-3 bg-white dark:bg-slate-800 p-5 rounded-2xl border border-green-200 dark:border-green-800 text-slate-700 dark:text-slate-300 shadow-sm leading-relaxed">
+                        <strong class="text-green-800 dark:text-green-300 block mb-2 text-sm uppercase tracking-wider">Solution</strong>
+                        ${data.explanation}
+                    </div>
+                `;
+                feedback.className = "feedback-box bg-green-50 border border-green-200 dark:bg-green-900/20 dark:border-green-800";
+            } else {
+                // Incorrect
+                input.classList.add('incorrect-answer');
+                feedback.innerHTML = `
+                    <div class="text-red-700 dark:text-red-400 font-bold text-lg mb-3 flex items-center gap-2">
+                        <!-- Bootstrap Icon: x-circle-fill -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+                        </svg>
+                        不正解です...
+                    </div>
+                    <p class="text-slate-600 dark:text-slate-400 mb-4 text-sm">計算ミスがあるようです。移項の符号や因数分解を確認しましょう。</p>
+                    <div class="pt-4 border-t border-red-200 dark:border-red-800">
+                        <button onclick="document.getElementById('reveal-${qId}').classList.remove('hidden')" class="text-red-600 dark:text-red-400 font-bold text-sm hover:text-red-800 dark:hover:text-red-300 underline decoration-2 underline-offset-4">
+                            答えと解説を見る
+                        </button>
+                        <div id="reveal-${qId}" class="hidden mt-4 bg-white dark:bg-slate-800 p-5 rounded-2xl border border-red-200 dark:border-red-800 text-slate-700 dark:text-slate-300 shadow-sm leading-relaxed">
+                             <div class="mb-3 text-lg font-bold text-red-700 dark:text-red-400 border-b border-red-100 dark:border-red-900 pb-2">正解：${data.val} ${data.unit}</div>
+                             <div class="text-sm">${data.explanation}</div>
+                        </div>
+                    </div>
+                `;
+                feedback.className = "feedback-box bg-red-50 border border-red-200 dark:bg-red-900/20 dark:border-red-800";
+            }
+            renderMath(); // Re-render math in feedback
+        }
+
+        // --- 5. Event Listeners ---
+        const quizTrigger = document.getElementById('quizTrigger');
+        const quizPanel = document.getElementById('quizPanel');
+        const closeQuiz = document.getElementById('closeQuiz');
+        const generateBtn = document.getElementById('generateBtn');
+
+        quizTrigger.addEventListener('click', () => {
+            quizPanel.classList.add('active');
+            if (currentQuestions.length === 0) {
+                // Initial prompt is shown, user clicks generate
+            }
+        });
+
+        closeQuiz.addEventListener('click', () => {
+            quizPanel.classList.remove('active');
+        });
+
+        generateBtn.addEventListener('click', () => {
+            generateQuizHTML();
+            const container = document.getElementById('quizContainer');
+            if (container) container.scrollTop = 0;
+        });
+
+        // Initialize KaTeX on load
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMath();
+        });
+    </script>
+</body>
+</html>
