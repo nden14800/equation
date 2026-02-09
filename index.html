@@ -416,18 +416,24 @@
                         <span class="bg-indigo-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">例</span>
                         $3x - 5 = 7$ を解く
                     </p>
-                    <div class="pl-4 border-l-2 border-indigo-200 dark:border-indigo-700 space-y-4">
-                        <div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400 font-bold">Step 1: 定数項の移項</p>
-                            <p class="text-sm text-slate-500 mb-1">左辺の $-5$ を消すため、両辺に $+5$ する（右辺へ移項すると符号が反転する）。</p>
-                            <div class="font-mono text-lg">$$ 3x = 7 + 5 $$</div>
-                            <div class="font-mono text-lg">$$ 3x = 12 $$</div>
-                        </div>
-                        <div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400 font-bold">Step 2: 係数の処理</p>
-                            <p class="text-sm text-slate-500 mb-1">$x$ を単独にするため、両辺を $x$ の係数 $3$ で割る。</p>
-                            <div class="font-mono text-xl font-bold text-indigo-700 dark:text-indigo-300">$$ x = \frac{12}{3} = 4 $$</div>
-                        </div>
+                    
+                    <p class="font-bold text-indigo-900 dark:text-indigo-200 mb-4 flex items-center gap-2 pt-2">
+                        <span class="bg-indigo-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">1</span>
+                        Step 1: 定数項の移項
+                    </p>
+                    <div class="pl-4 border-l-2 border-indigo-200 dark:border-indigo-700 mb-6">
+                        <p class="mb-2 text-sm text-slate-600 dark:text-slate-400">左辺の $-5$ を消すため、両辺に $+5$ する（右辺へ移項すると符号が反転する）。</p>
+                        <div class="font-mono text-lg">$$ 3x = 7 + 5 $$</div>
+                        <div class="font-mono text-lg">$$ 3x = 12 $$</div>
+                    </div>
+
+                    <p class="font-bold text-indigo-900 dark:text-indigo-200 mb-4 flex items-center gap-2 pt-2">
+                        <span class="bg-indigo-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">2</span>
+                        Step 2: 係数の処理
+                    </p>
+                    <div class="pl-4 border-l-2 border-indigo-200 dark:border-indigo-700">
+                        <p class="mb-2 text-sm text-slate-600 dark:text-slate-400">$x$ を単独にするため、両辺を $x$ の係数 $3$ で割る。</p>
+                        <div class="font-mono text-xl font-bold text-indigo-700 dark:text-indigo-300">$$ x = \frac{12}{3} = 4 $$</div>
                     </div>
                 </div>
 
@@ -437,50 +443,57 @@
                 </p>
 
                 <!-- Method 1: Factoring -->
-                <div class="mb-12">
-                    <h4 class="text-xl font-bold mb-4 text-slate-800 dark:text-slate-200 border-l-4 border-emerald-500 pl-4">解法1：因数分解（たすき掛け）</h4>
-                    <p>
-                        最も計算が速い方法。左辺を $(px+q)(rx+s)=0$ の形に変形できれば、「掛けてゼロなら、どちらかがゼロ」という論理により即座に解が見つかる。
-                        整数解を持つ簡単な問題はまずこれを疑うべきである。
+                <div class="bg-emerald-50 dark:bg-emerald-900/10 p-8 rounded-2xl border border-emerald-100 dark:border-emerald-800 mb-10">
+                    <p class="font-bold text-emerald-900 dark:text-emerald-200 mb-4 flex items-center gap-2">
+                        <span class="bg-emerald-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">1</span>
+                        解法1：因数分解（たすき掛け）
                     </p>
-                    <div class="bg-emerald-50 dark:bg-emerald-900/10 p-6 rounded-xl border border-emerald-100 dark:border-emerald-800">
+                    <div class="pl-4 border-l-2 border-emerald-200 dark:border-emerald-700">
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">
+                            最も計算が速い方法。足して $b$、掛けて $c$ になる数のペアを探す。
+                        </p>
                         <p class="font-mono mb-2">例：$x^2 - 5x + 6 = 0$</p>
-                        <p class="text-sm text-slate-600 dark:text-slate-400">足して $-5$、掛けて $6$ になる数のペアを探すと、$-2$ と $-3$ が見つかる。</p>
+                        <p class="text-sm text-slate-600 dark:text-slate-400">足して $-5$、掛けて $6$ になる数のペア $\rightarrow -2$ と $-3$</p>
                         <div class="font-mono my-2">$$ (x - 2)(x - 3) = 0 $$</div>
                         <p class="font-bold text-emerald-800 dark:text-emerald-300">$$ x = 2, 3 $$</p>
                     </div>
                 </div>
 
                 <!-- Method 2: Completing the Square -->
-                <div class="mb-12">
-                    <h4 class="text-xl font-bold mb-4 text-slate-800 dark:text-slate-200 border-l-4 border-blue-500 pl-4">解法2：平方完成</h4>
-                    <p>
-                        無理やり $(x+p)^2 = q$ の形を作る方法。これは後述する「解の公式」を導出する元となった強力な変形技術である。頂点を求める際にも使われる。
+                <div class="bg-blue-50 dark:bg-blue-900/10 p-8 rounded-2xl border border-blue-100 dark:border-blue-800 mb-10">
+                    <p class="font-bold text-blue-900 dark:text-blue-200 mb-4 flex items-center gap-2">
+                        <span class="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">2</span>
+                        解法2：平方完成
                     </p>
-                    <div class="bg-blue-50 dark:bg-blue-900/10 p-6 rounded-xl border border-blue-100 dark:border-blue-800">
+                    <div class="pl-4 border-l-2 border-blue-200 dark:border-blue-700">
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">
+                            無理やり $(x+p)^2 = q$ の形を作る方法。「解の公式」の導出原理でもある。
+                        </p>
                         <p class="font-mono mb-2">例：$x^2 + 6x - 1 = 0$</p>
                         <div class="math-block">
                             $$ x^2 + 6x = 1 $$
                             $$ x^2 + 6x + 9 = 1 + 9 \quad (\text{半分の2乗を足す}) $$
                             $$ (x + 3)^2 = 10 $$
-                            $$ x + 3 = \pm\sqrt{10} $$
                         </div>
                         <p class="font-bold text-blue-800 dark:text-blue-300">$$ x = -3 \pm \sqrt{10} $$</p>
                     </div>
                 </div>
 
                 <!-- Method 3: Quadratic Formula -->
-                <div class="mb-8">
-                    <h4 class="text-xl font-bold mb-4 text-slate-800 dark:text-slate-200 border-l-4 border-rose-500 pl-4">解法3：解の公式（万能の鍵）</h4>
-                    <p>
-                        因数分解ができなくても、係数 $a,b,c$ を代入すれば、実数解・虚数解を問わず必ず答えが出る最強の公式。
+                <div class="bg-rose-50 dark:bg-rose-900/20 p-8 rounded-2xl border border-rose-100 dark:border-rose-800 mb-8">
+                    <p class="font-bold text-rose-900 dark:text-rose-200 mb-4 flex items-center gap-2">
+                        <span class="bg-rose-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">3</span>
+                        解法3：解の公式（万能の鍵）
                     </p>
-                    <div class="bg-rose-50 dark:bg-rose-900/20 p-8 rounded-2xl border border-rose-100 dark:border-rose-800 text-center">
-                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-4 text-left">2次方程式 $ax^2 + bx + c = 0$ の解は：</p>
+                    <div class="pl-4 border-l-2 border-rose-200 dark:border-rose-700">
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
+                            因数分解ができなくても、係数 $a,b,c$ を代入すれば必ず答えが出る。
+                        </p>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">2次方程式 $ax^2 + bx + c = 0$ の解は：</p>
                         <div class="text-3xl font-bold py-4 text-rose-800 dark:text-rose-300 font-serif overflow-x-auto">
                             $$ x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
                         </div>
-                        <div class="mt-6 text-left border-t border-rose-200 dark:border-rose-800 pt-4">
+                        <div class="mt-4 pt-4 border-t border-rose-200 dark:border-rose-800">
                             <p class="font-bold text-sm text-rose-900 dark:text-rose-200">判別式 $D = b^2 - 4ac$ の意味</p>
                             <ul class="list-disc list-inside text-sm text-slate-700 dark:text-slate-300 mt-2 space-y-1">
                                 <li>$D > 0$ ：異なる2つの実数解</li>
@@ -754,7 +767,7 @@
                 let questionText = "";
                 let targetVal = 0;
                 let explanation = "";
-                let unit = "";
+                let unit = ""; // Default empty unit
 
                 if (type < 0.35) {
                     // Type 1: Linear Equation (ax + b = c)
@@ -792,13 +805,20 @@
                     大きい方は $${maxRoot}$ となります。`;
 
                 } else {
-                    // Type 3: Simple Cubic Equation (x^3 = a) or conceptual
-                    // Simple cubic: x^3 - a = 0
+                    // Type 3: Simple Cubic Equation (x^3 = a)
+                    // Mark this as "Applied Problem" just to show the badge
                     const root = Math.floor(Math.random() * 5) + 2; // 2 to 6
                     const cube = root * root * root;
                     
                     questionText = `次の3次方程式の実数解を求めなさい：<br>$$ x^3 - ${cube} = 0 $$`;
                     targetVal = root;
+                    unit = ""; // No physical unit, but logic below uses this field
+                    // Hack: We want to show "応用問題" badge. 
+                    // In the HTML generator below, it checks if(q.unit). 
+                    // To show badge without text, we might need a flag, or just use a dummy unit if needed.
+                    // Let's treat this as a special "High Level" problem.
+                    unit = "★"; // Special mark to trigger badge
+                    
                     explanation = `<strong>3乗して元に戻る数を探す</strong><br>
                     移項すると $x^3 = ${cube}$ です。<br>
                     $${root} \\times ${root} \\times ${root} = ${cube}$ なので、<br>
@@ -827,18 +847,24 @@
             currentQuestions.forEach(q => {
                 const card = document.createElement('div');
                 card.className = "bg-white p-8 rounded-3xl border border-slate-200 shadow-sm transition-all hover:shadow-md dark:bg-slate-800 dark:border-slate-700 relative overflow-hidden";
+                
+                // Logic to show "応用問題" badge if unit exists (or is special char)
+                const badgeHtml = q.unit ? `<span class="text-xs font-bold text-slate-400 bg-slate-100 dark:bg-slate-700 px-2 py-1 rounded">応用問題</span>` : '';
+                // Display unit in input field only if it's not a special marker like ★
+                const displayUnit = (q.unit && q.unit !== "★") ? q.unit : "";
+
                 card.innerHTML = `
                     <div class="absolute top-0 left-0 w-2 h-full bg-indigo-500"></div>
                     <div class="flex items-center gap-3 mb-5">
                         <span class="bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-200 font-bold px-4 py-1.5 rounded-full text-sm tracking-wide">Q.${q.id}</span>
-                        ${q.unit ? `<span class="text-xs font-bold text-slate-400 bg-slate-100 dark:bg-slate-700 px-2 py-1 rounded">応用問題</span>` : ''}
+                        ${badgeHtml}
                     </div>
                     <div class="text-slate-800 dark:text-slate-200 mb-8 text-lg leading-relaxed font-medium serif-text">
                         ${q.text}
                     </div>
                     <div class="flex gap-4 items-center mb-6">
                         <input type="number" id="q${q.id}-input" class="quiz-input w-full p-4 border-2 border-slate-200 rounded-2xl font-bold text-xl text-slate-700 placeholder-slate-300 dark:bg-slate-900 dark:border-slate-600 dark:text-slate-100" placeholder="答えを入力" step="1">
-                        <span class="font-bold text-slate-400 text-xl whitespace-nowrap">${q.unit}</span>
+                        <span class="font-bold text-slate-400 text-xl whitespace-nowrap">${displayUnit}</span>
                     </div>
                     <button onclick="checkAnswer(${q.id})" class="group w-full bg-slate-800 text-white font-bold py-4 rounded-2xl hover:bg-slate-700 transition-all shadow-lg shadow-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 dark:shadow-none flex items-center justify-center gap-2">
                         <span>答え合わせ</span>
@@ -889,6 +915,9 @@
             } else {
                 // Incorrect
                 input.classList.add('incorrect-answer');
+                // Display unit in correct answer text if it exists and isn't special char
+                const displayUnit = (data.unit && data.unit !== "★") ? data.unit : "";
+                
                 feedback.innerHTML = `
                     <div class="text-red-700 dark:text-red-400 font-bold text-lg mb-3 flex items-center gap-2">
                         <!-- Bootstrap Icon: x-circle-fill -->
@@ -903,7 +932,7 @@
                             答えと解説を見る
                         </button>
                         <div id="reveal-${qId}" class="hidden mt-4 bg-white dark:bg-slate-800 p-5 rounded-2xl border border-red-200 dark:border-red-800 text-slate-700 dark:text-slate-300 shadow-sm leading-relaxed">
-                             <div class="mb-3 text-lg font-bold text-red-700 dark:text-red-400 border-b border-red-100 dark:border-red-900 pb-2">正解：${data.val} ${data.unit}</div>
+                             <div class="mb-3 text-lg font-bold text-red-700 dark:text-red-400 border-b border-red-100 dark:border-red-900 pb-2">正解：${data.val} ${displayUnit}</div>
                              <div class="text-sm">${data.explanation}</div>
                         </div>
                     </div>
