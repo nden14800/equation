@@ -88,6 +88,7 @@
             border-radius: 0 1rem 1rem 0;
             font-family: 'Noto Serif JP', serif;
             letter-spacing: 0.05em;
+            overflow-x: auto;
         }
 
         .chapter-title {
@@ -152,7 +153,7 @@
 
         .diagram-box {
             border-radius: 2rem;
-            padding: 4rem;
+            padding: 4rem 2rem;
             margin: 5rem 0;
             display: flex;
             flex-direction: column;
@@ -160,6 +161,7 @@
             background-color: #f8fafc;
             border: 1px solid #e2e8f0;
             box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);
+            overflow: hidden;
         }
         
         @media (prefers-color-scheme: dark) {
@@ -262,6 +264,12 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
+        /* Math formula specific styling */
+        .math-block {
+            overflow-x: auto;
+            padding: 1rem 0;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 selection:bg-indigo-200 dark:selection:bg-indigo-900">
@@ -322,37 +330,43 @@
                 <div class="diagram-box">
                     <h4 class="text-lg font-bold mb-12 text-slate-700 dark:text-slate-300 tracking-wider">真理の天秤</h4>
                     
-                    <!-- HTML/CSS based diagram for perfect KaTeX integration -->
-                    <div class="relative flex flex-col items-center justify-center p-8">
+                    <!-- 天秤図形の修正版 -->
+                    <div class="relative flex flex-col items-center justify-center p-4 w-full">
                         
                         <!-- Balance Scale Visualization -->
-                        <div class="relative w-full max-w-md h-48 flex items-end justify-center">
+                        <div class="relative w-full max-w-lg h-64 flex items-end justify-center">
                             
                             <!-- Base -->
-                            <div class="absolute bottom-0 w-4 h-32 bg-slate-300 dark:bg-slate-600 rounded-t-lg"></div>
+                            <div class="absolute bottom-0 w-4 h-40 bg-slate-300 dark:bg-slate-600 rounded-t-lg"></div>
                             <div class="absolute bottom-0 w-32 h-4 bg-slate-300 dark:bg-slate-600 rounded-full"></div>
 
                             <!-- Beam (Balanced) -->
-                            <div class="absolute top-8 w-64 h-2 bg-indigo-500 dark:bg-indigo-400 rounded-full"></div>
+                            <div class="absolute top-12 w-80 h-2 bg-indigo-500 dark:bg-indigo-400 rounded-full transition-transform"></div>
                             
                             <!-- Fulcrum -->
-                            <div class="absolute top-8 w-4 h-4 bg-slate-800 dark:bg-slate-200 rounded-full z-10"></div>
+                            <div class="absolute top-12 w-5 h-5 bg-slate-800 dark:bg-slate-200 rounded-full z-10 -translate-y-1.5"></div>
 
-                            <!-- Left Pan -->
-                            <div class="absolute left-8 top-8 w-0.5 h-16 bg-slate-400"></div>
-                            <div class="absolute left-8 top-24 w-20 h-2 bg-slate-400"></div>
-                            <div class="absolute left-[32px] top-[96px] -translate-x-1/2 flex flex-col items-center">
-                                <div class="w-20 h-10 border-b-2 border-l-2 border-r-2 border-slate-400 rounded-b-full bg-white/50 dark:bg-slate-800/50 flex items-center justify-center">
-                                    <span class="font-bold text-xl text-indigo-700 dark:text-indigo-300">$$3x+2$$</span>
+                            <!-- Left Pan System -->
+                            <div class="absolute left-8 md:left-16 top-12 flex flex-col items-center">
+                                <!-- Chain -->
+                                <div class="w-0.5 h-20 bg-slate-400"></div>
+                                <!-- Pan Connector -->
+                                <div class="w-24 h-1 bg-slate-400"></div>
+                                <!-- Pan Bowl (Text Container) -->
+                                <div class="w-24 h-12 border-b-2 border-l-2 border-r-2 border-slate-400 rounded-b-full bg-white/60 dark:bg-slate-800/60 flex items-center justify-center mt-0 backdrop-blur-sm z-10">
+                                    <span class="font-bold text-2xl text-indigo-700 dark:text-indigo-300 pt-1">$$3x+2$$</span>
                                 </div>
                             </div>
 
-                            <!-- Right Pan -->
-                            <div class="absolute right-8 top-8 w-0.5 h-16 bg-slate-400"></div>
-                            <div class="absolute right-8 top-24 w-20 h-2 bg-slate-400"></div>
-                            <div class="absolute right-[32px] top-[96px] translate-x-1/2 flex flex-col items-center">
-                                <div class="w-20 h-10 border-b-2 border-l-2 border-r-2 border-slate-400 rounded-b-full bg-white/50 dark:bg-slate-800/50 flex items-center justify-center">
-                                    <span class="font-bold text-xl text-indigo-700 dark:text-indigo-300">$$14$$</span>
+                            <!-- Right Pan System -->
+                            <div class="absolute right-8 md:right-16 top-12 flex flex-col items-center">
+                                <!-- Chain -->
+                                <div class="w-0.5 h-20 bg-slate-400"></div>
+                                <!-- Pan Connector -->
+                                <div class="w-24 h-1 bg-slate-400"></div>
+                                <!-- Pan Bowl (Text Container) -->
+                                <div class="w-24 h-12 border-b-2 border-l-2 border-r-2 border-slate-400 rounded-b-full bg-white/60 dark:bg-slate-800/60 flex items-center justify-center mt-0 backdrop-blur-sm z-10">
+                                    <span class="font-bold text-2xl text-indigo-700 dark:text-indigo-300 pt-1">$$14$$</span>
                                 </div>
                             </div>
 
@@ -360,7 +374,7 @@
 
                     </div>
 
-                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-12 italic text-center max-w-lg">
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-8 italic text-center max-w-lg">
                         方程式 $3x + 2 = 14$ は、左の皿と右の皿が釣り合っている状態。<br>両方から2を取り除き、3で割ることで、未知の重さ $x$ が明らかになる。
                     </p>
                 </div>
@@ -387,85 +401,189 @@
             </div>
         </section>
 
-        <!-- Chapter 1.5: Calculation -->
+        <!-- Chapter 1.5: Calculation (Expanded) -->
         <section class="content-card bg-white border border-slate-100 dark:bg-slate-900 dark:border-slate-800">
-            <h2 class="chapter-title text-slate-900 dark:text-slate-100">実践：解法のアルゴリズム</h2>
+            <h2 class="chapter-title text-slate-900 dark:text-slate-100">実践：解法のアルゴリズムと完全な手法</h2>
             <div class="serif-text">
-                <h3 class="sub-section-title">1次方程式：移項と逆演算</h3>
+                <p>数学は観賞するだけでなく、実際に手を動かして解くことでその本質が見えてくる。ここでは、1次方程式から2次方程式までの「具体的かつ網羅的な解法」を解説する。</p>
+
+                <h3 class="sub-section-title">1次方程式：逆算の基本</h3>
                 <p>
-                    1次方程式の解法は「邪魔なものを消す」ことに尽きる。$x$ にくっついている係数や定数を、等式の性質を利用して逆サイドへ追いやり、最終的に $x = \dots$ の形に持ち込む。
+                    1次方程式のゴールは $x = \text{数値}$ の形を作ることである。そのために「等式の性質（両辺に同じことをしても等式は成り立つ）」を利用して、邪魔な項を逆サイドへ移動させる（移項）。
                 </p>
                 <div class="bg-indigo-50 dark:bg-indigo-900/20 p-8 rounded-2xl border border-indigo-100 dark:border-indigo-800 mb-10">
                     <p class="font-bold text-indigo-900 dark:text-indigo-200 mb-4 flex items-center gap-2">
-                        <span class="bg-indigo-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">1</span>
-                        基本：$3x - 5 = 7$
+                        <span class="bg-indigo-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">例</span>
+                        $3x - 5 = 7$ を解く
                     </p>
-                    <div class="pl-4 border-l-2 border-indigo-200 dark:border-indigo-700 mb-6">
-                        <p class="mb-2 text-sm text-slate-600 dark:text-slate-400">邪魔な $-5$ を消すために両辺に $+5$ （移項）：</p>
-                        <div class="text-lg font-serif">
-                            $$ 3x = 7 + 5 \implies 3x = 12 $$
+                    <div class="pl-4 border-l-2 border-indigo-200 dark:border-indigo-700 space-y-4">
+                        <div>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 font-bold">Step 1: 定数項の移項</p>
+                            <p class="text-sm text-slate-500 mb-1">左辺の $-5$ を消すため、両辺に $+5$ する（右辺へ移項すると符号が反転する）。</p>
+                            <div class="font-mono text-lg">$$ 3x = 7 + 5 $$</div>
+                            <div class="font-mono text-lg">$$ 3x = 12 $$</div>
                         </div>
-                        <p class="my-2 text-sm text-slate-600 dark:text-slate-400">$x$ の係数 $3$ で割る：</p>
-                        <div class="text-xl font-bold text-indigo-800 dark:text-indigo-300">
-                            $$ x = 4 $$
+                        <div>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 font-bold">Step 2: 係数の処理</p>
+                            <p class="text-sm text-slate-500 mb-1">$x$ を単独にするため、両辺を $x$ の係数 $3$ で割る。</p>
+                            <div class="font-mono text-xl font-bold text-indigo-700 dark:text-indigo-300">$$ x = \frac{12}{3} = 4 $$</div>
                         </div>
                     </div>
                 </div>
 
-                <h3 class="sub-section-title">2次方程式：因数分解と解の公式</h3>
+                <h3 class="sub-section-title">2次方程式：3つのアプローチ</h3>
                 <p>
-                    2次方程式 $ax^2 + bx + c = 0$ になると、単純な逆算では解けない。まずは「因数分解」を試み、無理なら最強の武器である「解の公式」を発動する。
+                    2次方程式 $ax^2 + bx + c = 0$ の解き方は、式の形によって最適な方法が異なる。以下の3つの武器を使い分けることが重要だ。
                 </p>
-                <div class="bg-rose-50 dark:bg-rose-900/20 p-8 rounded-2xl border border-rose-100 dark:border-rose-800 mb-8">
-                    <p class="font-bold text-rose-900 dark:text-rose-200 mb-4 flex items-center gap-2">
-                        <span class="bg-rose-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">2</span>
-                        万能の鍵：解の公式
+
+                <!-- Method 1: Factoring -->
+                <div class="mb-12">
+                    <h4 class="text-xl font-bold mb-4 text-slate-800 dark:text-slate-200 border-l-4 border-emerald-500 pl-4">解法1：因数分解（たすき掛け）</h4>
+                    <p>
+                        最も計算が速い方法。左辺を $(px+q)(rx+s)=0$ の形に変形できれば、「掛けてゼロなら、どちらかがゼロ」という論理により即座に解が見つかる。
+                        整数解を持つ簡単な問題はまずこれを疑うべきである。
                     </p>
-                    <p class="text-slate-700 dark:text-slate-300 mb-4">
-                        どんな2次方程式でも、係数 $a, b, c$ を代入するだけで解が求まる魔法の公式。
-                    </p>
-                    <div class="text-2xl font-bold text-center py-6 text-rose-800 dark:text-rose-300 font-serif">
-                        $$ x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
+                    <div class="bg-emerald-50 dark:bg-emerald-900/10 p-6 rounded-xl border border-emerald-100 dark:border-emerald-800">
+                        <p class="font-mono mb-2">例：$x^2 - 5x + 6 = 0$</p>
+                        <p class="text-sm text-slate-600 dark:text-slate-400">足して $-5$、掛けて $6$ になる数のペアを探すと、$-2$ と $-3$ が見つかる。</p>
+                        <div class="font-mono my-2">$$ (x - 2)(x - 3) = 0 $$</div>
+                        <p class="font-bold text-emerald-800 dark:text-emerald-300">$$ x = 2, 3 $$</p>
                     </div>
-                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">
-                        ルートの中身（判別式 $D = b^2 - 4ac$）がマイナスになるとき、解は「虚数解」となり、実数の世界から飛び出す。
-                    </p>
                 </div>
 
-                <!-- Trivia 2 -->
-                <div class="trivia-box">
-                    <span class="trivia-badge">
-                        豆知識：公式の覚え方
-                    </span>
-                    <p class="mb-0 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
-                        日本の学校では、解の公式をリズムに乗せて暗記する。「にーえーぶんの、マイナスびー、プラスマイナスるーと、びーじじょうマイナスよんえーしー」。この呪文のようなリズムは、一度覚えると一生頭から離れない強力な定着力を持つ。
+                <!-- Method 2: Completing the Square -->
+                <div class="mb-12">
+                    <h4 class="text-xl font-bold mb-4 text-slate-800 dark:text-slate-200 border-l-4 border-blue-500 pl-4">解法2：平方完成</h4>
+                    <p>
+                        無理やり $(x+p)^2 = q$ の形を作る方法。これは後述する「解の公式」を導出する元となった強力な変形技術である。頂点を求める際にも使われる。
                     </p>
+                    <div class="bg-blue-50 dark:bg-blue-900/10 p-6 rounded-xl border border-blue-100 dark:border-blue-800">
+                        <p class="font-mono mb-2">例：$x^2 + 6x - 1 = 0$</p>
+                        <div class="math-block">
+                            $$ x^2 + 6x = 1 $$
+                            $$ x^2 + 6x + 9 = 1 + 9 \quad (\text{半分の2乗を足す}) $$
+                            $$ (x + 3)^2 = 10 $$
+                            $$ x + 3 = \pm\sqrt{10} $$
+                        </div>
+                        <p class="font-bold text-blue-800 dark:text-blue-300">$$ x = -3 \pm \sqrt{10} $$</p>
+                    </div>
                 </div>
+
+                <!-- Method 3: Quadratic Formula -->
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold mb-4 text-slate-800 dark:text-slate-200 border-l-4 border-rose-500 pl-4">解法3：解の公式（万能の鍵）</h4>
+                    <p>
+                        因数分解ができなくても、係数 $a,b,c$ を代入すれば、実数解・虚数解を問わず必ず答えが出る最強の公式。
+                    </p>
+                    <div class="bg-rose-50 dark:bg-rose-900/20 p-8 rounded-2xl border border-rose-100 dark:border-rose-800 text-center">
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-4 text-left">2次方程式 $ax^2 + bx + c = 0$ の解は：</p>
+                        <div class="text-3xl font-bold py-4 text-rose-800 dark:text-rose-300 font-serif overflow-x-auto">
+                            $$ x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
+                        </div>
+                        <div class="mt-6 text-left border-t border-rose-200 dark:border-rose-800 pt-4">
+                            <p class="font-bold text-sm text-rose-900 dark:text-rose-200">判別式 $D = b^2 - 4ac$ の意味</p>
+                            <ul class="list-disc list-inside text-sm text-slate-700 dark:text-slate-300 mt-2 space-y-1">
+                                <li>$D > 0$ ：異なる2つの実数解</li>
+                                <li>$D = 0$ ：ただ1つの実数解（重解）</li>
+                                <li>$D < 0$ ：異なる2つの虚数解（実数解なし）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
-        <!-- Chapter 2: History -->
+        <!-- Chapter 2: History & Advanced Formulas -->
         <section class="content-card bg-white border border-slate-100 dark:bg-slate-900 dark:border-slate-800">
-            <h2 class="chapter-title text-slate-900 dark:text-slate-100">第2章：3次・4次方程式の決闘</h2>
+            <h2 class="chapter-title text-slate-900 dark:text-slate-100">第2章：3次・4次方程式の一般的解法</h2>
             <div class="serif-text text-xl leading-relaxed">
                 <p>
-                    2次方程式の解法は古代バビロニアですでに知られていたが、3次方程式（$ax^3+...=0$）と4次方程式の解法が見つかるまでには数千年の時を要した。16世紀イタリア、ルネサンス期に繰り広げられたのは、数学者たちのプライドを懸けた知的格闘技であった。
+                    学校教育では2次方程式までしか扱わないが、数学の世界には3次、4次の解の公式が存在する。これらは極めて複雑だが、先人たちが命がけで導き出した人類の英知である。ここではその完全な形式と解法のアルゴリズムを紹介する。
                 </p>
                 
-                <h3 class="sub-section-title">タルタリアとカルダノの確執</h3>
+                <!-- 3次方程式 -->
+                <h3 class="sub-section-title">3次方程式：カルダノの公式</h3>
                 <p>
-                    1535年、数学者ニコロ・タルタリアは3次方程式の解法を独自に発見した。これをジェロラモ・カルダノが聞きつけ、「絶対に秘密にする」という誓いのもと解法を聞き出した。
-                    しかし、カルダノはその誓いを破り、自身の著書『アルス・マグナ（大いなる術）』でその解法を公表してしまう。これが数学史に残る「カルダノの公式」である。激怒したタルタリアとの論争は泥沼化したが、この公式の発見により、人類は初めて「虚数」の必要性に直面することとなった。
+                    一般的な3次方程式 $ax^3 + bx^2 + cx + d = 0$ は、適切な置換を行うことで、2次の項がない形（立方完成）に変換できる。これが解法の第一歩である。
+                </p>
+                
+                <div class="bg-slate-50 dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 mb-8">
+                    <h4 class="font-bold text-lg mb-4 text-indigo-700 dark:text-indigo-400">Step 1: 立方完成（2次の項の消去）</h4>
+                    <p class="text-base text-slate-600 dark:text-slate-400 mb-2">
+                        $x = t - \frac{b}{3a}$ と置換して代入・整理すると、以下のような $t$ についての方程式が得られる。
+                    </p>
+                    <div class="math-block text-center font-bold text-xl my-4">
+                        $$ t^3 + pt + q = 0 $$
+                    </div>
+                    <p class="text-sm text-slate-500 text-center">
+                        （ここで、$p = \frac{3ac - b^2}{3a^2}, \quad q = \frac{2b^3 - 9abc + 27a^2d}{27a^3}$）
+                    </p>
+                </div>
+
+                <div class="bg-slate-50 dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 mb-12">
+                    <h4 class="font-bold text-lg mb-4 text-indigo-700 dark:text-indigo-400">Step 2: カルダノの公式</h4>
+                    <p class="text-base text-slate-600 dark:text-slate-400">
+                        上記の方程式 $t^3 + pt + q = 0$ の解の一つは、以下の公式で与えられる。
+                    </p>
+                    <div class="math-block text-center py-6 overflow-x-auto">
+                        <span class="text-2xl font-bold">
+                            $$ t = \sqrt[3]{-\frac{q}{2} + \sqrt{\frac{q^2}{4} + \frac{p^3}{27}}} + \sqrt[3]{-\frac{q}{2} - \sqrt{\frac{q^2}{4} + \frac{p^3}{27}}} $$
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-500 mt-2">
+                        ※ ここで得られた $t$ を $x = t - \frac{b}{3a}$ に戻すことで、元の $x$ が求まる。3乗根の中が虚数になる場合もあるが（還元不能の場合）、複素数の計算を経由して実数解が得られる。
+                        残りの2つの解は、1の3乗根 $\omega = \frac{-1+\sqrt{3}i}{2}$ を用いて表される。
+                    </p>
+                </div>
+
+                <!-- 4次方程式 -->
+                <h3 class="sub-section-title">4次方程式：フェラーリの解法</h3>
+                <p>
+                    4次方程式 $ax^4 + bx^3 + cx^2 + dx + e = 0$ の解の公式を単一の式で書き下すと、その長さは数ページに及ぶほど巨大になる。そのため、実用上は「フェラーリの解法」と呼ばれるアルゴリズム（手順）そのものが「一般解」として扱われる。
                 </p>
 
-                <h3 class="sub-section-title">フェラーリと4次の壁</h3>
-                <p>
-                    カルダノの弟子であるルドヴィコ・フェラーリは、師匠の知識を応用して4次方程式の解法（フェラーリの公式）を発見した。
-                    これにより1次から4次までは「代数的な公式（四則演算とルートだけで書ける式）」が存在することが確定した。数学者たちは当然、「次は5次方程式の公式だ」と意気込んだが、ここから300年にわたる沈黙の時代が始まる。
-                </p>
+                <div class="bg-slate-50 dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <h4 class="font-bold text-lg mb-4 text-purple-700 dark:text-purple-400">フェラーリの解法アルゴリズム</h4>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <strong class="block text-slate-700 dark:text-slate-300 mb-2">1. 3次の項の消去</strong>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">
+                                $x = y - \frac{b}{4a}$ と置換し、$y^4 + py^2 + qy + r = 0$ の形にする。
+                            </p>
+                        </div>
+
+                        <div>
+                            <strong class="block text-slate-700 dark:text-slate-300 mb-2">2. 完全平方式への変形</strong>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">
+                                方程式を移項し、両辺にパラメータ $\lambda$ を含む項を加えて、左辺を完全平方式にする。
+                                $$ (y^2 + \lambda)^2 = (2\lambda - p)y^2 - qy + (\lambda^2 - r) $$
+                            </p>
+                        </div>
+
+                        <div>
+                            <strong class="block text-slate-700 dark:text-slate-300 mb-2">3. 分解方程式（3次方程式）を解く</strong>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">
+                                右辺も $y$ の完全平方式になる条件（判別式が0）を考えると、$\lambda$ に関する3次方程式（分解方程式）が得られる。
+                                $$ q^2 - 4(2\lambda - p)(\lambda^2 - r) = 0 $$
+                                これをカルダノの公式で解き、$\lambda$ の値を一つ決定する。
+                            </p>
+                        </div>
+
+                        <div>
+                            <strong class="block text-slate-700 dark:text-slate-300 mb-2">4. 2次方程式へ帰着</strong>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">
+                                求めた $\lambda$ を元の式に戻すと、「2乗引く2乗」の形になり、因数分解できる。
+                                $$ (y^2 + \lambda)^2 - (Ay + B)^2 = 0 \implies (y^2 + \lambda + Ay + B)(y^2 + \lambda - Ay - B) = 0 $$
+                                最終的に、2つの2次方程式を解くことで、4つの解 $y$（そして $x$）がすべて求まる。
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Trivia 3 -->
-                <div class="trivia-box">
+                <div class="trivia-box mt-10">
                     <span class="trivia-badge">
                         豆知識：決闘で散った天才
                     </span>
